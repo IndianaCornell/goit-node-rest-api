@@ -11,6 +11,16 @@ const contactsPath = path.join(__dirname, "..", "db", "contacts.json");
 const updateContacts = (data) =>
   fs.writeFile(contactsPath, JSON.stringify(data, null, 2));
 
+export async function updateContact(id, patch) {
+  const data = await listContacts();
+  const idx = data.findIndex((contact) => contact.id === id);
+  if (idx === -1) return null;
+
+  data[idx] = { ...data[idx], ...patch };
+  await updateContacts(data);
+  return data[idx];
+}
+
 export async function listContacts() {
   const data = await fs.readFile(contactsPath, "utf-8");
   return JSON.parse(data);
@@ -49,4 +59,5 @@ export default {
   getContactById,
   removeContact,
   addContact,
+  updateContact,
 };
