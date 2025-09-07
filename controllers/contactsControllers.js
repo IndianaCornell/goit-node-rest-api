@@ -1,9 +1,13 @@
 import contactsService from "../services/contactsServices.js";
 import HttpError from "../helpers/HttpError.js";
 
-export const getAllContacts = async (_req, res) => {
-  const data = await contactsService.listContacts();
-  res.status(200).json(data);
+export const getAllContacts = async (_req, res, next) => {
+  try {
+    const data = await contactsService.listContacts(); 
+    res.status(200).json(data);
+  } catch (err) {
+    next(err);
+  }
 };
 
 export const getOneContact = async (req, res, next) => {
@@ -33,5 +37,13 @@ export const updateContact = async (req, res, next) => {
   }
   const updated = await contactsService.updateContact(id, req.body);
   if (!updated) return next(HttpError(404, "Not found"));
+  res.status(200).json(updated);
+};
+
+export const updateFavorite = async (req, res, next) => {
+  const { id } = req.params;
+  const updated = await contactsService.updateStatusContact(id, req.body);
+  if (!updated) return next(HttpError(404, "Not found"));
+
   res.status(200).json(updated);
 };
