@@ -7,6 +7,7 @@ import "./db/sequelize.js";
 import contactsRouter from "./routes/contactsRouter.js";
 import notFoundHandler from "./middlewares/notFoundHandler.js";
 import errorHandler from "./middlewares/errorHandler.js";
+import authRouter from "./routes/authRouter.js";
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/auth", authRouter);
 app.use("/api/contacts", contactsRouter);
 
 app.use(notFoundHandler);

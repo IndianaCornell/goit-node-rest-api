@@ -22,9 +22,3 @@ try {
 
 export default sequelize;
 
-  //   dialect: "postgres",
-  //   database: "my_contacts_list",
-  //   username: "my_contacts_list_user",
-  //   password: "jFwCKX8iozmsmvRqbl9S1YBKwioUHPJw",
-  //   host: "dpg-d2tgkc95pdvs739i9rfg-a.oregon-postgres.render.com/my_contacts_list",
-  //   port: "5432",
