@@ -4,16 +4,19 @@ import cors from "cors";
 import "dotenv/config";
 
 import "./db/sequelize.js";
+
 import contactsRouter from "./routes/contactsRouter.js";
+import authRouter from "./routes/authRouter.js";
+
 import notFoundHandler from "./middlewares/notFoundHandler.js";
 import errorHandler from "./middlewares/errorHandler.js";
-import authRouter from "./routes/authRouter.js";
 
 const app = express();
 
 app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public"));
 
 app.use("/api/auth", authRouter);
 app.use("/api/contacts", contactsRouter);

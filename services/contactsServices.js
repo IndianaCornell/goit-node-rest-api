@@ -1,5 +1,10 @@
 import { where } from "sequelize";
+import fs from "node:fs/promises";
+import path from "node:path";
+
 import Contact from "../db/Contact.js";
+
+const avatarsDir = path.resolve("public", "avatars");
 
 export async function updateContact(query, patch) {
   const contact = await getContact(query);
@@ -30,8 +35,15 @@ export async function removeContact(query) {
 }
 
 // ADD CONTACT
-export async function addContact(data) {
-  return await Contact.create(data);
+
+export async function addContact(data, file) {
+  let avatarURL = null;
+  if (file) {
+    const newPath = path.join(avatarsDir, file.filename);
+    await fs.rename(file.path, newPath);
+    avatarURL = path.join("avatars", file.filename);
+  }
+  return await Contact.create({ ...data, avatarURL });
 }
 
 // ADD TO FAVORITE

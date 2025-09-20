@@ -29,7 +29,7 @@ export const deleteContact = async (req, res, next) => {
 
 export const createContact = async (req, res) => {
   const { id: owner } = req.user;
-  const created = await contactsService.addContact({ ...req.body, owner });
+  const created = await contactsService.addContact({ ...req.body, owner }, req.file);
   res.status(201).json(created);
 };
 
@@ -46,12 +46,12 @@ export const updateContact = async (req, res, next) => {
 
 export const updateFavorite = async (req, res, next) => {
   try {
-    const ownerId = req.user.id; 
-    const contactId = Number(req.params.id); 
+    const ownerId = req.user.id;
+    const contactId = Number(req.params.id);
 
     const updated = await contactsService.updateStatusContact(
-      { id: contactId, owner: ownerId }, 
-      req.body 
+      { id: contactId, owner: ownerId },
+      req.body
     );
 
     if (!updated) return next(HttpError(404, "Not found"));
