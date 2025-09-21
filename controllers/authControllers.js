@@ -3,6 +3,8 @@ import {
   registerUser,
   logoutUser,
   updateUserAvatar,
+  verifyUser,
+  resendVerifyUser,
 } from "../services/authServices.js";
 
 // REGISTER
@@ -60,10 +62,31 @@ export const updateAvatarController = async (req, res, next) => {
   }
 };
 
+// VERIFY
+
+export const verifyController = async (req, res) => {
+  const { verificationToken } = req.params;
+  await verifyUser(verificationToken);
+  res.json({
+    message: "User successfully verified",
+  });
+};
+
+// RESEND VERIFY
+
+export const resendVerifyController = async (req, res) => {
+  await resendVerifyUser(req.body);
+  res.json({
+    message: "Verify email resend succesfully",
+  });
+};
+
 export default {
   loginController,
   registerController,
   getCurrentController,
   logoutController,
   updateAvatarController,
+  verifyController,
+  resendVerifyController,
 };
